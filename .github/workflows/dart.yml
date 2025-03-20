@@ -18,6 +18,34 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      # Specify the Dart SDK version that supports your code
+      - uses: dart-lang/setup-dart@v1
+        with:
+  sdk: ">=2.12.0 <3.0.0"  # Ensure this range includes versions that support null safety
+
+dependencies:
+  # List your dependencies here, ensuring they support null safety
+      - name: Install dependencies
+        run: dart pub get
+
+      - name: Analyze project source
+        run: dart analyze
+
+      - name: Run tests
+        run: dart test
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
       # Note: This workflow uses the latest stable version of the Dart SDK.
       # You can specify other versions if desired, see documentation here:
       # https://github.com/dart-lang/setup-dart/blob/main/README.md
